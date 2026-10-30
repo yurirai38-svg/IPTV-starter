@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+}
+
+model Channel {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  category  String
+  language  String
+  logoUrl   String?
+  streamUrl String
+  epgId     String?
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model EpgProgram {
+  id        String   @id @default(cuid())
+  channelId String
+  title     String
+  start     DateTime
+  end       DateTime
+  createdAt DateTime @default(now())
+}
